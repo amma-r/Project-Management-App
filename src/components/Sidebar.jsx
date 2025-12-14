@@ -1,11 +1,11 @@
-export default function Sidebar({ showNewProjHandler, sidebarProjects, setSelectedProject, selectedProject }) {
+export default function Sidebar({ setViewMode, sidebarProjects, setSelectedProject, selectedProject, handleAddProjectCLick }) {
     const unselectedProjCss = "w-full px-4 py-2 text-sm text-left bg-stone-900 text-stone-50 hover:bg-stone-700 hover:text-stone-50"
     const selectedProjCss = "w-full px-4 py-2 text-sm text-left bg-stone-700 text-stone-50"
 
     const renderSidebarProjects = sidebarProjects.map((project, index) => <li key={index}>
         <button className={selectedProject.indexx == index ? selectedProjCss : unselectedProjCss}
             onClick={() => {
-                showNewProjHandler(false)
+                setViewMode("CONTENT")
                 handleProjectSelection(index)
             }}>
             {project.title}
@@ -21,7 +21,7 @@ export default function Sidebar({ showNewProjHandler, sidebarProjects, setSelect
             <h2 className="mb-8 font-bold uppercase md:text-xl text-stone-200">Your Projects</h2>
             <div>
                 <button className="px-4 py-2 text-xs md:text-base bg-stone-50 text-stone-900 rounded-sm hover:bg-stone-700 hover:text-stone-50"
-                    onClick={() => showNewProjHandler(true)}
+                    onClick={() => handleAddProjectCLick()}
                 >+ Add Project</button>
             </div>
             <ul className="mt-8">

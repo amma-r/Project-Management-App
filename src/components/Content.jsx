@@ -2,13 +2,27 @@ import Input from "./Input";
 import NoProjectSelect from "./NoProjectSelect";
 
 
-export default function Content({ selectedProject, showNewProjHandler, setSidebarProjects, sidebarProjects }) {
+export default function Content({ selectedProject, setViewMode, setSidebarProjects, sidebarProjects, handleAddProjectClick }) {
+
+    const projectTasks = ["task12434", "task243443", "task3232", "task4", "task52"]
+    const tasks = projectTasks.map((task, index) => <li className="mt-2 flex justify-between">
+
+        <>{task}</>
+
+        <button className=" text-stone-700 hover:text-red-500"
+            onClick={handleTaskDeletion}>
+            Delete Task
+        </button></li>)
+
+    function handleTaskDeletion() {
+
+    }
 
     function handleDelete() {
         const updatedProjects = sidebarProjects.filter((_, index) => selectedProject.indexx != index)
 
         setSidebarProjects(updatedProjects)
-        showNewProjHandler(true)
+        handleAddProjectClick(true)
     }
 
     function formatSimpleDate(dateString) {
@@ -49,12 +63,17 @@ export default function Content({ selectedProject, showNewProjHandler, setSideba
                     InputClassName="w-100 mb-2 px-2 py-1 rounded-sm bg-stone-200"
                     type="text" />
 
-                <button className="ml-2 text-stone-700 hover:text-red-500">Add Task</button>
+                <button className="ml-2 text-stone-700 hover:text-stone-400">Add Task</button>
 
-                <p className="py-4">This project Does not have any tasks yet</p>
+                {tasks.length > 0 ?
+                    <ul className="mt-8 w-120">
+                        {tasks}
+                    </ul>
+                    :
+                    <p className="py-4">This project Does not have any tasks yet</p>}
             </>
                 :
-                <NoProjectSelect showNewProjHandler={showNewProjHandler} />
+                <NoProjectSelect setViewMode={setViewMode} handleAddProjectClick={handleAddProjectClick} />
             }
         </div>
 
