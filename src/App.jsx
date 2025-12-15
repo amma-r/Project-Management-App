@@ -5,17 +5,20 @@ import Sidebar from './components/Sidebar'
 import './App.css'
 
 function App() {
-  const [sidebarProjects, setSidebarProjects] = useState([])
-  const [selectedProject, setSelectedProject] = useState({})
+  const [projects, setProjects] = useState([])
+  const [selectedProjectId, setSelectedProjectId] = useState()
   const [viewMode, setViewMode] = useState("CONTENT");
+
+  console.log(projects)
 
   function handleAddProjectClick(isDeletingProject = false) {
     if (!isDeletingProject) {
-      setSelectedProject({})
+      setSelectedProjectId("")
       setViewMode("NEW_PROJECT")
     }
     else {
-      setSelectedProject({})
+      console.log("selecting new project and setting project id as an empty strin")
+      setSelectedProjectId("")
       setViewMode("CONTENT")
     }
 
@@ -24,12 +27,13 @@ function App() {
   return (
     <>
       <main className="h-screen my-8 flex">
-        <Sidebar setViewMode={setViewMode} sidebarProjects={sidebarProjects} setSelectedProject={setSelectedProject} selectedProject={selectedProject} handleAddProjectCLick={handleAddProjectClick} />
-        {viewMode == "CONTENT" && <Content selectedProject={selectedProject} setViewMode={setViewMode} setSidebarProjects={setSidebarProjects} sidebarProjects={sidebarProjects} handleAddProjectClick={handleAddProjectClick} />}
-        {viewMode == "NEW_PROJECT" && <NewProject setSidebarProjects={setSidebarProjects} setViewMode={setViewMode} />}
+        <Sidebar setViewMode={setViewMode} projects={projects} setSelectedProjectId={setSelectedProjectId} selectedProjectId={selectedProjectId} handleAddProjectCLick={handleAddProjectClick} />
+        {viewMode == "CONTENT" && <Content selectedProjectId={selectedProjectId} setViewMode={setViewMode} setProjects={setProjects} projects={projects} handleAddProjectClick={handleAddProjectClick} />}
+        {viewMode == "NEW_PROJECT" && <NewProject setProjects={setProjects} setViewMode={setViewMode} />}
       </main>
     </>
   )
 }
 
 export default App    
+//we have to use more of 

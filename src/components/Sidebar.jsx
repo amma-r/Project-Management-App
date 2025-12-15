@@ -1,19 +1,20 @@
-export default function Sidebar({ setViewMode, sidebarProjects, setSelectedProject, selectedProject, handleAddProjectCLick }) {
+export default function Sidebar({ setViewMode, projects, setSelectedProjectId, selectedProjectId, handleAddProjectCLick }) {
+    
     const unselectedProjCss = "w-full px-4 py-2 text-sm text-left bg-stone-900 text-stone-50 hover:bg-stone-700 hover:text-stone-50"
     const selectedProjCss = "w-full px-4 py-2 text-sm text-left bg-stone-700 text-stone-50"
 
-    const renderSidebarProjects = sidebarProjects.map((project, index) => <li key={index}>
-        <button className={selectedProject.indexx == index ? selectedProjCss : unselectedProjCss}
+    const renderSidebarProjects = projects.map((project) => <li key={project.id}>
+        <button className={selectedProjectId == project.id ? selectedProjCss : unselectedProjCss}
             onClick={() => {
                 setViewMode("CONTENT")
-                handleProjectSelection(index)
+                handleProjectSelection(project.id)
             }}>
             {project.title}
         </button>
     </li>)
 
-    function handleProjectSelection(index) {
-        setSelectedProject({ ...sidebarProjects[index], indexx: index })
+    function handleProjectSelection(id) {
+        setSelectedProjectId(id)
     }
 
     return <>

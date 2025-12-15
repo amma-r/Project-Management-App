@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import Input from "./Input";
 
-export default function NewProject({ setSidebarProjects, setViewMode }) {
+export default function NewProject({ setProjects, setViewMode }) {
 
     const inputRefTitle = useRef()
     const inputRefDescription = useRef()
@@ -9,12 +9,14 @@ export default function NewProject({ setSidebarProjects, setViewMode }) {
 
     function handleSave() {
         const data = {
+            id: crypto.randomUUID(),
             title: inputRefTitle.current.value,
             description: inputRefDescription.current.value,
-            dueDate: inputRefDueDate.current.value
+            dueDate: inputRefDueDate.current.value,
+            tasks: []
         }
 
-        data.title && data.description && data.dueDate && setSidebarProjects(prev => [...prev, data])
+        data.title && data.description && data.dueDate && setProjects(prev => [...prev, data])
         setViewMode("CONTENT")
     }
 

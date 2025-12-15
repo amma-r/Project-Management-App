@@ -1,11 +1,18 @@
+import { useRef } from "react";
 import Input from "./Input";
 import NoProjectSelect from "./NoProjectSelect";
 
 
-export default function Content({ selectedProject, setViewMode, setSidebarProjects, sidebarProjects, handleAddProjectClick }) {
+export default function Content({ selectedProjectId, setProjects, projects, handleAddProjectClick }) {
 
-    const projectTasks = ["task12434", "task243443", "task3232", "task4", "task52"]
-    const tasks = projectTasks.map((task, index) => <li className="mt-2 flex justify-between">
+    const selectedProject = projects.find(project => project.id === selectedProjectId) || {}
+    console.log("Content > selectedProject (var)", selectedProject)
+
+    const projectTasks = selectedProject.tasks || []
+    const tasksInputRef = useRef()
+
+
+    const tasks = projectTasks.map((task, index) => <li key={index} className="mt-2 flex justify-between">
 
         <>{task}</>
 
@@ -18,10 +25,17 @@ export default function Content({ selectedProject, setViewMode, setSidebarProjec
 
     }
 
-    function handleDelete() {
-        const updatedProjects = sidebarProjects.filter((_, index) => selectedProject.indexx != index)
+    function handleTaskInput() {
+        setProjects(prevProjects => prevProjects.map(project => project.id == selectedProject.id ?
+            { ...project, tasks: [...project.tasks || [], tasksInputRef.current.value] }
+            : project
+        ))
+    }
 
-        setSidebarProjects(updatedProjects)
+    function handleDelete() {
+        const updatedProjects = projects.filter((project) => selectedProject.id != project.id)
+
+        setProjects(updatedProjects)
         handleAddProjectClick(true)
     }
 
@@ -61,9 +75,11 @@ export default function Content({ selectedProject, setViewMode, setSidebarProjec
 
                 <Input
                     InputClassName="w-100 mb-2 px-2 py-1 rounded-sm bg-stone-200"
-                    type="text" />
+                    type="text"
+                    ref={tasksInputRef}
+                />
 
-                <button className="ml-2 text-stone-700 hover:text-stone-400">Add Task</button>
+                <button onClick={handleTaskInput} className="ml-2 text-stone-700 hover:text-stone-400">Add Task</button>
 
                 {tasks.length > 0 ?
                     <ul className="mt-8 w-120">
@@ -73,7 +89,7 @@ export default function Content({ selectedProject, setViewMode, setSidebarProjec
                     <p className="py-4">This project Does not have any tasks yet</p>}
             </>
                 :
-                <NoProjectSelect setViewMode={setViewMode} handleAddProjectClick={handleAddProjectClick} />
+                <NoProjectSelect handleAddProjectClick={handleAddProjectClick} />
             }
         </div>
 
