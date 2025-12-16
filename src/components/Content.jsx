@@ -12,17 +12,21 @@ export default function Content({ selectedProjectId, setProjects, projects, hand
     const tasksInputRef = useRef()
 
 
-    const tasks = projectTasks.map((task, index) => <li key={index} className="mt-2 flex justify-between">
+    const tasks = projectTasks.map((task, index) => <li key={crypto.randomUUID()} className="mt-2 flex justify-between">
 
         <>{task}</>
 
         <button className=" text-stone-700 hover:text-red-500"
-            onClick={handleTaskDeletion}>
+            onClick={()=>handleTaskDeletion(index)}>
             Delete Task
         </button></li>)
 
-    function handleTaskDeletion() {
+    function handleTaskDeletion(index) {
+        setProjects(prevProjects => prevProjects.map(project => project.id == selectedProject.id ?
 
+            { ...project, tasks: project.tasks.filter((_,indx)=> indx != index) || []  }
+            : project
+        ))
     }
 
     function handleTaskInput() {
